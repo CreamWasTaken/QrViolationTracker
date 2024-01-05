@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 QR Code library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
+    <style>
+        /* Custom styles for the navbar */
+        .navbar-custom {
+            background-color: #404e67;
+        }
+
+        /* Custom styles for the navbar links */
+        .navbar-custom .navbar-nav .nav-link {
+            color: #ffffff; /* Set the text color to white */
+        }
+
+        /* Custom styles for the body */
+        body {
+            background-color: #f4f4f4; /* Set the body background color to a lighter grey */
+        }
+
+        /* Custom styles for the centered div */
+        .centered-div {
+            background-color: #ffffff; /* Set the background color to white */
+            padding: 20px; /* Add some padding for spacing inside the div */
+            border-radius: 10px; /* Optional: Add rounded corners for a more visually appealing look */
+            margin-top: 20px; /* Add some top margin for spacing */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <a class="navbar-brand" href="#" style="color: #ffffff;">Scanner</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link logout">Log Out<span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+   
+<!-- Separated styled div above the main container -->
+<div class="container centered-div">
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-12">
+            <div class="row mb-2">
+                <div class="col-sm-5"><h5>Name:</h5></div>
+                <div class="col-sm-7"><span id="ScannerName"></span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-5"><h5>ID Number:</h5></div>
+                <div class="col-sm-7"><Span id="ScannerID"></Span></div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-5"><h5>Course:</h5></div>
+                <div class="col-sm-7"><span id="ScannerCourse"></span></div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="inputGroupSelect01">Violation:</label>
+                </div>
+                <select class="custom-select" id="ScannerViolation">
+                  <option selected> </option>
+                  <option value="Dress Code Violation">Dress Code Violation</option>
+                  <option value="Harrasment">Harrasment</option>
+                  <option value="Vandalism">Vandalism</option>
+                  <option value="Disruptive Behavior">Disruptive Behavior</option>
+                  <option value="Unauthorized Possesions">Unauthorized Possesions</option>
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-default">Remarks/Description</span>
+                </div>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" id="ScannerRemarks"> 
+            </div>
+            <div class="row">
+                <button type="button" class="btn btn-primary  mx-auto d-block" onclick="Encode()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Scanner Div -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div id="reader" class="col-md-6 col-sm-12">
+               
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper.js (optional) -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.2/firebase-firestore.js"></script>
+
+    <!-- Sweet Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="scanner.js"></script>
+</body>
+</html>
