@@ -59,56 +59,88 @@ function convertFirestoreTimestamp(timestamp) {
   return new Date(milliseconds);
 }
 
-
 // Function to fetch Firestore data and update the table
 function initDataTable() {
   const tableBody = $("#violation-table");
 
   // Clear existing rows
   tableBody.empty();
+
   // Fetch data from Firestore
-  db.collection("/Records")
-    .onSnapshot((querySnapshot) => {
-      const snapshot = querySnapshot.docs.map((firestoreData) => {
-        return { ...firestoreData.data(), docId: firestoreData.id }
-      });
+  db.collection("/Records").onSnapshot((querySnapshot) => {
+    const snapshot = querySnapshot.docs.map((firestoreData) => {
+      return { ...firestoreData.data(), docId: firestoreData.id }
+    });
 
-      if ($.fn.DataTable.isDataTable(tableBody)) {
-        tableBody.destroy();
-      }
+    if ($.fn.DataTable.isDataTable(tableBody)) {
+      tableBody.destroy();
+    }
 
-      // Initialize Datatable
-      const table = $("#violation-table").DataTable({
-        "responsive": true,
-        "data": snapshot,
-        "columns": [
-          {
-            "title": "Time",
-            "data": function (row) {
-              // Convert timestamp to Date object and format as a string
-              const date = convertFirestoreTimestamp(row.time);
-              return date.toLocaleString();
+    // Initialize Datatable
+    const table = $("#violation-table").DataTable({
+      "responsive": true,
+      "data": snapshot,
+      "columns": [
+        {
+          "title": "Time",
+          "data": function (row) {
+            // Convert timestamp to Date object and format as a string
+            const date = convertFirestoreTimestamp(row.time);
+            return date.toLocaleString();
+          }
+        },
+        { "title": "ID", "data": "idNumber" },
+        { "title": "Name", "data": "name" },
+        { "title": "Course", "data": "Course" },
+        { "title": "Violation", "data": "violation" },
+        { "title": "Status", "data": "status" },
+        {
+          "title": "Actions",
+          data: null,
+          className: 'dt-center editor-edit',
+          render: function (data, type, row) {
+            // Render Settle button for unsettled records
+            if (row.status !== 'Settled') {
+              return '<button type="button" class="btn btn-primary btn-sm js-settle" data-toggle="modal" data-target="#exampleModalCenter" >Settle</button>';
+            }
+            // Render Settled button for settled records
+            else {
+              return '<button type="button" class="btn btn-success btn-sm js-view-settled">Settled</button>';
             }
           },
-          { "title": "ID", "data": "idNumber" },
-          { "title": "Name", "data": "name" },
-          { "title": "Course", "data": "Course" },
-          { "title": "Violation", "data": "violation" },
-          { "title": "Status", "data": "status" },
-          {
-            "title": "Actions",
-            data: null,
-            className: 'dt-center editor-edit',
-            defaultContent: '<button type="button" class="btn btn-primary btn-sm js-settle" data-toggle="modal" data-target="#exampleModalCenter" >Settle</button>',
-            orderable: false
-          },
-        ],
-        "searching": true,
-        "ordering": true
-      });
-    }, (error) => {
-      console.error("Error getting documents: ", error);
+          orderable: false
+        },
+      ],
+      "searching": true,
+      "ordering": true
     });
+
+    // Add event listener to the Settled button in the DataTable
+    $("#violation-table").on('click', 'tbody button.js-view-settled', function (e) {
+      const settledData = table.row($(this).closest('tr')).data();
+      viewSettledRecord(settledData);
+    });
+  }, (error) => {
+    console.error("Error getting documents: ", error);
+  });
+}
+
+//view settleby
+function viewSettledRecord(settledData) {
+  // Pass the timestamp through convertFirestoreTimestamp first
+  const date = convertFirestoreTimestamp(settledData.time);
+
+  Swal.fire({
+    title: 'Settled Record Details',
+    html: `<ul class="list-group">
+              <li class="list-group-item">Time: ${date.toLocaleString()}</li>
+              <li class="list-group-item">ID: ${settledData.idNumber}</li>
+              <li class="list-group-item">Name: ${settledData.name}</li>
+              <li class="list-group-item">Violation: ${settledData.violation}</li>
+              <li class="list-group-item">Settled By: ${settledData.SettledBy}</li>
+            </ul>`,
+    showCloseButton: true,
+  });
 }
 
 
