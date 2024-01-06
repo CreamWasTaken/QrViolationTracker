@@ -89,10 +89,11 @@ function initDataTable() {
             return date.toLocaleString();
           }
         },
-        { "title": "ID", "data": "idNumber" },
+        { "title": "ID  Number", "data": "idNumber" },
         { "title": "Name", "data": "name" },
         { "title": "Course", "data": "Course" },
         { "title": "Violation", "data": "violation" },
+        { "title": "Details", "data": "Remarks" },
         { "title": "Status", "data": "status" },
         {
           "title": "Actions",
@@ -134,7 +135,7 @@ function viewSettledRecord(settledData) {
     title: 'Settled Record Details',
     html: `<ul class="list-group">
               <li class="list-group-item">Time: ${date.toLocaleString()}</li>
-              <li class="list-group-item">ID: ${settledData.idNumber}</li>
+              <li class="list-group-item">ID Number: ${settledData.idNumber}</li>
               <li class="list-group-item">Name: ${settledData.name}</li>
               <li class="list-group-item">Violation: ${settledData.violation}</li>
               <li class="list-group-item">Settled By: ${settledData.SettledBy}</li>
