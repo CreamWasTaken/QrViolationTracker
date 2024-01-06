@@ -127,7 +127,7 @@ function initDataTable() {
   });
 }
 
-//view settleby
+//view Settled By
 function viewSettledRecord(settledData) {
   // Pass the timestamp through convertFirestoreTimestamp first
   const date = convertFirestoreTimestamp(settledData.time);
@@ -140,6 +140,7 @@ function viewSettledRecord(settledData) {
               <li class="list-group-item">Name: ${settledData.name}</li>
               <li class="list-group-item">Violation: ${settledData.violation}</li>
               <li class="list-group-item">Settled By: ${settledData.SettledBy}</li>
+              <li class="list-group-item">Discplinary Action: ${settledData.action}</li>
             </ul>`,
     showCloseButton: true,
   });
@@ -214,19 +215,28 @@ function settleRecord(dataRow) {
               <li class="list-group-item" id="listViolation">Violation: ${violation}</li>
             </ul>
             <hr>
-            <input type="text" name="Confirm" class="form-control mx-auto" placeholder='"CONFIRM"' id="confirmationModal">`,
+            <input type="text" name="Confirm" class="form-control mx-auto" placeholder='"CONFIRM"' id="confirmationModal">
+            <input type="text" name="DisciplineAction" class="form-control mx-auto" placeholder='Enter Discipline Action' id="disciplineActionModal">`,
     showCancelButton: true,
     cancelButtonText: 'Cancel',
     confirmButtonText: 'Settle',
     preConfirm: () => {
       const confirmationValue = document.getElementById("confirmationModal").value.trim();
+      const disciplineAction = document.getElementById("disciplineActionModal").value.trim();
 
       if (confirmationValue === 'CONFIRM') {
+        // Check if Discipline Action is not empty
+        if (!disciplineAction) {
+          Swal.showValidationMessage('Discipline Action is required');
+          return false;
+        }
+
         try {
-          // Update the record with the Settled status and SettledBy field
+          // Update the record with the Settled status, SettledBy field, and Discipline Action
           return db.collection('/Records').doc(dataRow.docId).update({
             status: 'Settled',
             SettledBy: userEmail,
+            action: disciplineAction,  // Assuming "action" is the field to store Discipline Action
           });
         } catch (e) {
           console.error('Error updating document:', e);

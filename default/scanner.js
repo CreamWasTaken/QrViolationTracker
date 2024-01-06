@@ -64,11 +64,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     const spanIdNumber = document.getElementById("ScannerID");
                     const spanName = document.getElementById("ScannerName");
                     const spanCourse = document.getElementById("ScannerCourse");
+                    const spanRemarks = document.getElementById("ScannerRemarks");
 
                     if (spanIdNumber && spanName && spanCourse) {
                         spanIdNumber.textContent = "";
                         spanName.textContent = "";
                         spanCourse.textContent = "";
+                        spanRemarks.value = "";
                     }
                     // Clear the select element
                     const scannerViolationSelect = document.getElementById("ScannerViolation");
