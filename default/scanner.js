@@ -34,6 +34,25 @@ document.addEventListener("DOMContentLoaded", function () {
         // Reset the flag to allow for the next scan
 
     }
+    function ClearSpan() {
+        // clear the span
+        const spanIdNumber = document.getElementById("ScannerID");
+        const spanName = document.getElementById("ScannerName");
+        const spanCourse = document.getElementById("ScannerCourse");
+        const spanRemarks = document.getElementById("ScannerRemarks");
+
+        if (spanIdNumber && spanName && spanCourse) {
+            spanIdNumber.textContent = "";
+            spanName.textContent = "";
+            spanCourse.textContent = "";
+            spanRemarks.value = "";
+        }
+        // Clear the select element
+        const scannerViolationSelect = document.getElementById("ScannerViolation");
+        if (scannerViolationSelect) {
+            scannerViolationSelect.selectedIndex = 0;
+        }
+    }
 
     function findDataByIdNumber(idNumber) {
 
@@ -60,24 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     });
                 } else {
 
-                    // clear the span
-                    const spanIdNumber = document.getElementById("ScannerID");
-                    const spanName = document.getElementById("ScannerName");
-                    const spanCourse = document.getElementById("ScannerCourse");
-                    const spanRemarks = document.getElementById("ScannerRemarks");
-
-                    if (spanIdNumber && spanName && spanCourse) {
-                        spanIdNumber.textContent = "";
-                        spanName.textContent = "";
-                        spanCourse.textContent = "";
-                        spanRemarks.value = "";
-                    }
-                    // Clear the select element
-                    const scannerViolationSelect = document.getElementById("ScannerViolation");
-                    if (scannerViolationSelect) {
-                        scannerViolationSelect.selectedIndex = 0;
-                    }
-
+                    ClearSpan();
                     Swal.fire({
                         icon: 'error',
                         title: 'QR Failed',
